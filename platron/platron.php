@@ -290,13 +290,14 @@ class platron extends PaymentModule
     {
         return 'https://platron.ru';
     }
-    /**
-     * генерация пареметров запроса для создания транзакции 
-     * @param  Order $order     заказ
-     * @param  array $pmconfigs настройки платежной системы
-     * @return array параметры запроса           
-     */
-    private function generateParamsQueryByTransactionFromOrder($order)
+	/**
+	 * генерация пареметров запроса для создания транзакции
+	 * @param  Cart $cart текущаяя корзина
+	 * @return array параметры запроса
+	 * @throws PrestaShopDatabaseException
+	 * @throws PrestaShopException
+	 */
+    private function generateParamsQueryByTransactionFromOrder($cart)
     {
         $cookie = $this->context->cookie;
         $objLang = new LanguageCore($cookie->id_lang);
@@ -306,8 +307,8 @@ class platron extends PaymentModule
         $arrReq   = [];
         /* Обязательные параметры */
         $arrReq['pg_merchant_id']  = $this->pl_merchant_id; // Идентификатор магазина
-        $arrReq['pg_order_id']     = $order->id;  // Идентификатор заказа в системе магазина
-        $arrReq['pg_amount']       = $order->getOrderTotal(true, 3); // Сумма заказа
+        $arrReq['pg_order_id']     = $cart->id;  // Идентификатор заказа в системе магазина
+        $arrReq['pg_amount']       = $cart->getOrderTotal(true, 3); // Сумма заказа
         $arrReq['pg_description']  = "Оплата заказа ".$_SERVER['HTTP_HOST']; // Описание заказа (показывается в Платёжной системе)
         $arrReq['pg_site_url']     = $_SERVER['HTTP_HOST']; // Для возврата на сайт
         $arrReq['pg_lifetime']     = $this->pl_lifetime ? $this->pl_lifetime*60 : 0; // Время жизни в секундах
