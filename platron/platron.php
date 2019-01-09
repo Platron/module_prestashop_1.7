@@ -219,7 +219,7 @@ class platron extends PaymentModule
             $ofdReceiptItems[]        = $ofdReceiptItem;
         }
         if ($order->getPackageShippingCost() > 0) {
-            $ofdReceiptItems[] = $this->addShippingByOrder($order, ($rate === 'none' ? 'none' : '18'));
+            $ofdReceiptItems[] = $this->addShippingByOrder($order, ($rate === 'none' ? 'none' : '20'));
         }
         $sum = 0;
         return $ofdReceiptItems;
@@ -238,6 +238,7 @@ class platron extends PaymentModule
         $ofdReceiptItem->price    = round($order->getPackageShippingCost(), 2);
         $ofdReceiptItem->vat      = $rate;
         $ofdReceiptItem->quantity = 1;
+        $ofdReceiptItem->type = 'service;
         return $ofdReceiptItem;
     }
 
