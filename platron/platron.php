@@ -238,7 +238,7 @@ class platron extends PaymentModule
         $ofdReceiptItem->price    = round($order->getPackageShippingCost(), 2);
         $ofdReceiptItem->vat      = $rate;
         $ofdReceiptItem->quantity = 1;
-        $ofdReceiptItem->type = 'service;
+        $ofdReceiptItem->type = 'service';
         return $ofdReceiptItem;
     }
 
